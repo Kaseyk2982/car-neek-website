@@ -31,8 +31,8 @@ export default function SalesCard({ sale }) {
   } = sale;
 
   return (
-    <div className="flex border border-stone-500">
-      <div className="relative h-32 aspect-square">
+    <div className="flex flex-col md:flex-row border border-stone-500">
+      <div className="relative w-full h-64 md:w-32 md:h-32">
         <Image
           src={image}
           alt={`${make} ${model} image`}
