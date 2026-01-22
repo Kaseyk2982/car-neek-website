@@ -31,8 +31,8 @@ export default function SalesCard({ sale }) {
   } = sale;
 
   return (
-    <div className="flex flex-col md:flex-row border border-stone-500">
-      <div className="relative w-full h-64 md:w-32 md:h-32">
+    <div className="flex flex-col lg:flex-row border border-stone-500">
+      <div className="relative w-full h-64 lg:w-32 md:h-32">
         <Image
           src={image}
           alt={`${make} ${model} image`}
@@ -42,7 +42,7 @@ export default function SalesCard({ sale }) {
       </div>
 
       <div className="flex-1 flex flex-col justify-between px-6 py-4">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col lg:flex-row items-center justify-between">
           <div className="flex items-center gap-4">
             <h2 className="text-3xl text-stone-400 font-semibold">{make}</h2>
             <h3 className="text-2xl text-stone-400 font-semibold">{model}</h3>
@@ -87,8 +87,8 @@ export default function SalesCard({ sale }) {
             {status === "paid" ? "Complete" : "Pending"}
           </span>
         </div>
-        <div className="flex justify-center gap-12"></div>
-        <div className="flex justify-between">
+        {/* <div className="flex justify-center gap-12"></div> */}
+        <div className="flex flex-col items-center lg:flex-row justify-between">
           <div className="flex gap-6">
             <p className="text-lg font-medium">{formatPrice(salePrice)}</p>
             <span>:</span>
