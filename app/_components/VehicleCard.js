@@ -8,13 +8,15 @@ export default function VehicleCard({ vehicle }) {
   return (
     <div className="grid grid-cols-3 border border-stone-600">
       <div className="flex-1 relative">
-        <Image
-          src={image}
-          fill
-          alt="vehicle-image"
-          className="object-cover aspect-square border-r border-stone-600"
-          quality={100}
-        />
+        <Link href={`/vehicles/${id}`}>
+          <Image
+            src={image}
+            fill
+            alt="vehicle-image"
+            className="object-cover aspect-square border-r border-stone-600"
+            quality={100}
+          />
+        </Link>
       </div>
       <div className="col-span-2">
         <div className="pt-4 pb-4 px-7 bg-slate-950">

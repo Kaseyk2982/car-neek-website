@@ -5,7 +5,7 @@ export function formatPrice(
     locale = "en-US",
     minimumFractionDigits = 2,
     maximumFractionDigits = 2,
-  } = {}
+  } = {},
 ) {
   // Handle invalid/empty input
   if (price == null || isNaN(price)) {
@@ -36,4 +36,22 @@ export function formatDate(input) {
   const year = date.getFullYear();
 
   return `${month}-${day}-${year}`;
+}
+
+export const TIME_ZONE = "America/Phoenix";
+
+export function getZonedCalendarDate(dateInput) {
+  const date = new Date(dateInput);
+
+  // Format as 'yyyy-MM-dd' in the target time zone
+  const zonedDateStr = new Intl.DateTimeFormat("en-CA", {
+    timeZone: TIME_ZONE,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(date);
+
+  // Return a Date at midnight UTC for that zoned calendar day
+  // (safe for differenceInCalendarDays since both will align perfectly)
+  return new Date(`${zonedDateStr}T00:00:00Z`);
 }

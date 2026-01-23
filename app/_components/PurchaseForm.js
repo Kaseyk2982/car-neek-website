@@ -70,7 +70,7 @@ export default function PurchaseForm({ vehicle, user }) {
           </SubmitButton>
         </div>
       </form>
-      <div className="bg-stone-400 px-6 py-4 flex justify-around text-xl text-slate-700 font-semibold">
+      <div className="bg-stone-400 px-6 py-4 flex flex-col items-center  lg:flex-row justify-around text-xl text-slate-700 font-semibold">
         <span>Price {formatPrice(regularPrice)}</span>
         <span>Down Payment {formatPrice(downPayment)}</span>
         <span>Total Owed {formatPrice(totalOwed)}</span>

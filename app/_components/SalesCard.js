@@ -1,5 +1,9 @@
 import Image from "next/image";
-import { formatPrice } from "../_utils/helpers";
+import {
+  formatPrice,
+  getZonedCalendarDate,
+  TIME_ZONE,
+} from "../_utils/helpers";
 import { formatDate } from "@/app/_utils/helpers";
 import {
   format,
@@ -47,31 +51,48 @@ export default function SalesCard({ sale }) {
             <h2 className="text-3xl text-stone-400 font-semibold">{make}</h2>
             <h3 className="text-2xl text-stone-400 font-semibold">{model}</h3>
           </div>
+
           <p className="text-sm">
-            Pickup: {format(new Date(pickupDate), "EEE, MMM dd yyyy")}
-            <span>
-              {" "}
-              (
-              {(() => {
-                const pickup = new Date(pickupDate);
-                const now = new Date();
-                const daysDiff = differenceInCalendarDays(pickup, now);
+            Pickup:{" "}
+            {(() => {
+              const pickupDateObj = new Date(pickupDate);
 
-                if (Math.abs(daysDiff) < 2) {
-                  if (daysDiff === 0) return "today";
-                  if (daysDiff === 1) return "tomorrow";
-                  return "yesterday";
-                }
+              const formattedPickup = pickupDateObj
+                .toLocaleDateString("en-US", {
+                  timeZone: TIME_ZONE,
+                  weekday: "short",
+                  month: "short",
+                  day: "2-digit",
+                  year: "numeric",
+                })
+                .replace(", ", " ");
 
-                if (Math.abs(daysDiff) < 30) {
-                  const abs = Math.abs(daysDiff);
-                  return `${abs} day${abs > 1 ? "s" : ""} ${daysDiff > 0 ? "till" : "ago"}`;
-                }
+              const zonedNow = getZonedCalendarDate(Date.now());
+              const zonedPickup = getZonedCalendarDate(pickupDate);
 
-                return formatDistanceToNow(pickup, { addSuffix: true });
-              })()}
-              )
-            </span>
+              const daysDiff = differenceInCalendarDays(zonedPickup, zonedNow);
+
+              let relative = "";
+              if (Math.abs(daysDiff) < 2) {
+                if (daysDiff === 0) relative = "today";
+                else if (daysDiff === 1) relative = "tomorrow";
+                else if (daysDiff === -1) relative = "yesterday";
+              } else if (Math.abs(daysDiff) < 30) {
+                const abs = Math.abs(daysDiff);
+                relative = `${abs} day${abs > 1 ? "s" : ""} ${daysDiff > 0 ? "till" : "ago"}`;
+              } else {
+                relative = formatDistance(zonedPickup, zonedNow, {
+                  addSuffix: true,
+                });
+              }
+
+              return (
+                <>
+                  {formattedPickup}
+                  <span> ({relative})</span>
+                </>
+              );
+            })()}
           </p>
 
           <span
@@ -104,18 +125,20 @@ export default function SalesCard({ sale }) {
           </div>
         </div>
       </div>
-      <div className="border border-stone-500 flex flex-col overflow-hidden">
-        <Link
-          className="group border-b border-stone-500 text-sm uppercase font-bold px-3 flex flex-grow items-center gap-2 hover:bg-stone-400 transition-all justify-center"
-          href={`/account/purchases/edit/${saleId}`}
-        >
-          <FaPencilAlt />
-          edit
-        </Link>
-        <div className="group flex flex-grow items-center justify-center hover:bg-stone-400">
-          <DeletePurchase sale={sale} />
+      {status !== "paid" ? (
+        <div className="border border-stone-500 flex flex-col overflow-hidden">
+          <Link
+            className="group border-b border-stone-500 text-sm uppercase font-bold px-3 flex flex-grow items-center gap-2 hover:bg-stone-400 transition-all justify-center"
+            href={`/account/purchases/edit/${saleId}`}
+          >
+            <FaPencilAlt />
+            edit
+          </Link>
+          <div className="group flex flex-grow items-center justify-center hover:bg-stone-400">
+            <DeletePurchase sale={sale} />
+          </div>
         </div>
-      </div>
+      ) : null}
     </div>
   );
 }
