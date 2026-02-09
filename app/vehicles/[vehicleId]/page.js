@@ -36,8 +36,8 @@ export default async function Page({ params }) {
   return (
     <>
       <div className="max-w-6xl mx-auto mt-6">
-        <div className="grid sm:grid-cols-1 md:grid-cols-[3fr_4fr] border border-solid border-stone-500 px-4 py-6">
-          <div className="relative w-full aspect-[4/3] sm:aspect-square md:aspect-auto md:h-auto md:-translate-x-8 md:scale-[1.20]">
+        <div className="grid sm:grid-cols-1 lg:grid-cols-[3fr_4fr] border border-solid border-stone-500 px-4 py-6">
+          <div className="relative w-full aspect-[4/3] sm:aspect-square lg:aspect-auto md:h-auto lg:-translate-x-8 lg:scale-[1.20]">
             <Image
               src={image}
               alt={`vehicle ${make}`}

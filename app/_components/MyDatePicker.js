@@ -4,6 +4,7 @@ import { DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
 import { usePurchase } from "./PurchaseContext";
 import { isPast } from "date-fns";
+import { isBefore, startOfToday } from "date-fns";
 
 export default function MyDatePicker({ pickupDate }) {
   const { selected, setSelected } = usePurchase();
@@ -28,7 +29,7 @@ export default function MyDatePicker({ pickupDate }) {
           setSelected(date);
         }
       }}
-      disabled={(curDate) => isPast(curDate)}
+      disabled={(curDate) => isBefore(curDate, startOfToday())}
       footer={
         selected && selected instanceof Date
           ? `Selected: ${selected.toLocaleDateString()}`
